@@ -31,7 +31,7 @@ TEST(FirstLabTests, SimpleTest) {
     {
         auto inFile = std::ofstream(fileWithInput);
 	
-	inFile << fileWithOutput << '\n';
+	//inFile << fileWithOutput << '\n';
 
         for(const auto& line : input) {
             inFile<< line << '\n';
@@ -43,9 +43,17 @@ TEST(FirstLabTests, SimpleTest) {
     };
 
     std::unique_ptr<FILE, decltype(deleter)> inFile(fopen(fileWithInput, "r"), deleter);
+    //    auto out = std::ofstream(fileWithOutput);
+	//std::unique_ptr<FILE, decltype(deleter)> out(fopen(fileWithOutput, "w"), deleter);
+    FILE *outfile = fopen(fileWithOutput, "w");
+    //    printf("\a");
+    if (!outfile) {
+      printf("Failed to open file\n");
+    }
+    Parent(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile.get(), outfile);
 
-    Parent(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), inFile.get());
-
+    fclose(outfile);
+    
     auto outFile = std::ifstream(fileWithOutput);
 
     ASSERT_TRUE(outFile.good());

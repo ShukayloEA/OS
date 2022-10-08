@@ -7,17 +7,14 @@
 #include "parent.h"
 #include "utils.h"
 
-void Parent(const char *pathToChild1, const char *pathToChild2, FILE* stream)
+void Parent(const char *pathToChild1, const char *pathToChild2, FILE* stream, FILE* out)
 {
     int pid1, pid2;
     int pipe1[2], pipe2[2], pipe3[2];
     
-    pipe(pipe1);
-    pipe(pipe2);
-    pipe(pipe3);
-
-    char fileOutName[256];
-    fscanf(stream, "%s\n", fileOutName);
+    CreatePipe(pipe1);
+    CreatePipe(pipe2);
+    CreatePipe(pipe3);
 
     pid1 = fork();
     if (pid1 == -1) {
@@ -33,8 +30,9 @@ void Parent(const char *pathToChild1, const char *pathToChild2, FILE* stream)
       dup2(pipe1[0], 0);
       dup2(pipe3[1], 1);
 
-      char* argv1[1];
-      argv1[0] = NULL;
+      char* argv1[2];
+      argv1[0] = "child1";
+      argv1[1] = NULL;
 
       execv(pathToChild1, argv1);
       perror("execv");
@@ -54,10 +52,9 @@ void Parent(const char *pathToChild1, const char *pathToChild2, FILE* stream)
       dup2(pipe3[0], 0);
       dup2(pipe2[1], 1);
 
-      char* argv2[3];
+      char* argv2[2];
       argv2[0] = "child2";
-      argv2[1] = fileOutName;
-      argv2[2] = NULL;
+      argv2[1] = NULL;
 
       execv(pathToChild2, argv2);
       perror("execv");
@@ -65,19 +62,43 @@ void Parent(const char *pathToChild1, const char *pathToChild2, FILE* stream)
     }
    
     char* input = NULL;
+    char* output = NULL;
+    
+    size_t inputSize = 256;
+    size_t outputSize = 256;
     
     close(pipe1[0]);
     close(pipe3[0]);
     close(pipe3[1]);
     close(pipe2[1]);
-    close(pipe2[0]);
-    
-    while ((input = ReadString(stream)) != NULL) {
+    //close(pipe2[0]);
+    FILE* outChild2 = fdopen(pipe2[0], "r");
+    if (!outChild2) {
+        printf("Failed to open file\n");
+        exit(EXIT_FAILURE);
+    }
+
+    while (getline(&input, &inputSize, stream) != -1) {
+      //printf("going to readstring\n");
         write(pipe1[1], input, strlen(input));
+        printf("write the string %s\n", input);
+        getline(&output, &outputSize, outChild2);
+        fprintf(out, "%s", output);
+	printf("get string %s\n", output); 
         free(input);
+	input = NULL;
+        printf("free input\n");
+        free(output);
+	output = NULL;
+        printf("free output\n");
     }
     
     close(pipe1[1]);
+    close(pipe2[0]);
+    //printf("close pipes\n");
+    fclose(outChild2);
+    fclose(out);
+    //printf("close files\n");
 
     wait(&pid1);
     wait(&pid2);

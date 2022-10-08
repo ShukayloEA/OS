@@ -4,8 +4,8 @@
 #include <ctype.h>
 #include "utils.h"
 
-int main(const int argc, const char* argv[]) {
-    if (argc != 2) {
+int main(/*const int argc, const char* argv[]*/) {
+    /*if (argc != 2) {
           printf("Necessary arguments were not provided\n");
           exit(EXIT_FAILURE);
     }
@@ -15,7 +15,7 @@ int main(const int argc, const char* argv[]) {
         printf("Failed to open file\n");
         exit(EXIT_FAILURE);
     }
-    
+    */
     char* input = NULL;
   
     int count = 0;
@@ -23,10 +23,10 @@ int main(const int argc, const char* argv[]) {
 
     while ((input = ReadString(stdin)) != NULL) {
         length = strlen(input);
-        printf("read the string\n");
-        char* output = (char*)malloc(length);
-        printf("create output %s\n", output);
-        for (int i = 0, j = i; i < length; i++, j++) {
+        //printf("read the string\n");
+        //char* output = (char*)malloc(length);
+        //printf("create output %s\n", output);
+        for (int i = 0, j = 0; i < length; i++, j++) {
             if (input[i] == ' ') {
                 count++;
             }
@@ -37,21 +37,23 @@ int main(const int argc, const char* argv[]) {
             if (count > 1) {
                 j--;
             }
-            output[j] = input[i];
-	        if (i == length - 1 && i != j) {
-                for(int k = 1; k < length - j; k++) {
-                    output[k+j] = '\0';
+            input[j] = input[i];
+
+            if (i == length - 1) {
+                for (int k = 1; k < length - j; k++) {
+                    input[k + j] = '\0';
                 }
             }
         }
-        
-        fprintf(out, "%s", output);
+
+        write(1, input, length);
+        //fprintf(out, "%s", output);
 
         free(input);
-        free(output);
+        //free(output);
     }
 
-    fclose(out);
+    //fclose(out);
     
     return 0;
 }

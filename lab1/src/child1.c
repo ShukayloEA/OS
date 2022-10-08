@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include "utils.h"
 
-char to_lower(char symbol) {
+char ToLower(char symbol) {
     if (symbol >= 'A' && symbol <= 'Z') {
         symbol = symbol - 'A' + 'a';
     }
@@ -20,14 +20,14 @@ int main(void) {
     while ((input = ReadString(stdin)) != NULL) {
         strLength = strlen(input);
         for (int i = 0; i < strLength; i++) {
-            input[i] = to_lower(input[i]);
+            input[i] = ToLower(input[i]);
         }
-	write(1, input, strlen(input));
+        write(1, input, strlen(input));
 
-    free(input);
+        free(input);
     }
 
-    fclose(stdout);
+    //    fclose(stdout);
 
     return 0;
 }

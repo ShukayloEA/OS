@@ -6,6 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 
+void CreatePipe(int pipeFd[2]);
 char* ReadString(FILE* stream);
 
 #endif
