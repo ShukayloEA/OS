@@ -10,10 +10,9 @@ void CreatePipe(int pipeFd[2])
 
 char* ReadString(FILE* stream) {
     if (feof(stream)) {
-      //printf("feof\n");
         return NULL;
     }
-    //printf("not feof\n");
+
     const int chunkSize = 256;
     char* buffer = (char*)malloc(chunkSize);
     int bufferSize = chunkSize;
@@ -39,6 +38,6 @@ char* ReadString(FILE* stream) {
     }
 
     buffer[idx] = '\0';
-    //printf("buffer=%s\n", buffer);
+
     return buffer;
 }

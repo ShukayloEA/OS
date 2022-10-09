@@ -71,7 +71,6 @@ void Parent(const char *pathToChild1, const char *pathToChild2, FILE* stream, FI
     close(pipe3[0]);
     close(pipe3[1]);
     close(pipe2[1]);
-    //close(pipe2[0]);
     FILE* outChild2 = fdopen(pipe2[0], "r");
     if (!outChild2) {
         printf("Failed to open file\n");
@@ -79,27 +78,19 @@ void Parent(const char *pathToChild1, const char *pathToChild2, FILE* stream, FI
     }
 
     while (getline(&input, &inputSize, stream) != -1) {
-      //printf("going to readstring\n");
         write(pipe1[1], input, strlen(input));
-        printf("write the string %s\n", input);
         getline(&output, &outputSize, outChild2);
         fprintf(out, "%s", output);
-	printf("get string %s\n", output); 
-        free(input);
-	input = NULL;
-        printf("free input\n");
+	    free(input);
+	    input = NULL;
         free(output);
-	output = NULL;
-        printf("free output\n");
+	    output = NULL;
     }
     
     close(pipe1[1]);
     close(pipe2[0]);
-    //printf("close pipes\n");
     fclose(outChild2);
-    fclose(out);
-    //printf("close files\n");
-
+    
     wait(&pid1);
     wait(&pid2);
 }

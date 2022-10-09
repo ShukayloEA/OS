@@ -1,7 +1,5 @@
 set(CMAKE_C_STANDARD 11)
 
-add_compile_options(-g)
-
 add_executable(lab1
         main.c
         src/parent.c

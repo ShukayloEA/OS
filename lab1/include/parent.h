@@ -5,4 +5,4 @@
 
 void Parent(const char* pathToChild1, const char* pathToChild2, FILE* stream, FILE* out);
 
-#endif //OS_LABS_PARENT_H
+#endif

@@ -11,9 +11,10 @@ int main(void) {
         printf("Failed to open file\n");
         exit(EXIT_FAILURE);
     }
-    
-    //FILE* out;
 
     Parent(getenv("PATH_TO_CHILD1"), getenv("PATH_TO_CHILD2"), stdin, out);
+
+    fclose(out);
+
     return 0;
 }

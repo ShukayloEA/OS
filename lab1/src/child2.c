@@ -4,56 +4,33 @@
 #include <ctype.h>
 #include "utils.h"
 
-int main(/*const int argc, const char* argv[]*/) {
-    /*if (argc != 2) {
-          printf("Necessary arguments were not provided\n");
-          exit(EXIT_FAILURE);
-    }
-    
-    FILE* out = fopen(argv[1], "w");
-    if (!out) {
-        printf("Failed to open file\n");
-        exit(EXIT_FAILURE);
-    }
-    */
+int main(void) {
     char* input = NULL;
   
-    int count = 0;
     int length = 0;
 
     while ((input = ReadString(stdin)) != NULL) {
         length = strlen(input);
-        //printf("read the string\n");
-        //char* output = (char*)malloc(length);
-        //printf("create output %s\n", output);
-        for (int i = 0, j = 0; i < length; i++, j++) {
-            if (input[i] == ' ') {
-                count++;
-            }
-            else {
-                count = 0;
-            }
-
-            if (count > 1) {
-                j--;
-            }
+        int j = 0;
+        for (int i = 0; i < length; ++i, ++j) {
             input[j] = input[i];
 
-            if (i == length - 1) {
-                for (int k = 1; k < length - j; k++) {
-                    input[k + j] = '\0';
+            if (input[i] == ' ') {
+                while (input[i] == ' ') {
+                    ++i;
                 }
+                --i;
             }
         }
 
-        write(1, input, length);
-        //fprintf(out, "%s", output);
+        if (j != length) {
+            input[j] = '\0';
+        }
 
+        write(1, input, j);
+       
         free(input);
-        //free(output);
     }
 
-    //fclose(out);
-    
     return 0;
 }

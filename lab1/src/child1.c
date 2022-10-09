@@ -27,7 +27,5 @@ int main(void) {
         free(input);
     }
 
-    //    fclose(stdout);
-
     return 0;
 }
