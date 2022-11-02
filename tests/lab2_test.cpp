@@ -22,9 +22,9 @@ int *GenerateArray(int size, int *arr) {
     return arr;
 }
 
-int compare(const void* x1, const void* x2)   // функция сравнения элементов массива
+int compare(const void* x1, const void* x2)
 {
-    return (*(int*)x1 - *(int*)x2);              // если результат вычитания равен 0, то числа равны, < 0: x1 < x2; > 0: x1 > x2
+    return (*(int*)x1 - *(int*)x2);
 }
 
 TEST(SecondLabTests, SingleThread) {
