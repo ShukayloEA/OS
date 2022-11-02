@@ -41,15 +41,10 @@ void QuickSort(int low, int high, int *arr)
 
 void* QuickSortThread(void* arg)
 {
-    tsk* Tsk;
-    Tsk = (tsk*)arg;
-    int mid = (Tsk->left + Tsk->right) / 2;
+    TTsk* Tsk;
+    Tsk = (TTsk*)arg;
 
-    if (Tsk->left < Tsk->right) {
-        QuickSort(Tsk->left, mid, Tsk->arr);
-        QuickSort(mid + 1, Tsk->right, Tsk->arr);
-        QuickSort(Tsk->left, Tsk->right, Tsk->arr);
-    }
+    QuickSort(Tsk->left, Tsk->right, Tsk->arr);
 
     return NULL;
 }
@@ -59,10 +54,10 @@ void Sort(int numberThreads, int size, int *arr, FILE *out) {
     //float timer = 0.0;
     //start_time = clock();
 
-    tsk* arrThread = NULL;
+    TTsk* arrThread = NULL;
 
     pthread_t* threads = (pthread_t*)malloc((numberThreads) * sizeof(pthread_t));
-    tsk* tsklist = (tsk*)malloc((numberThreads) * sizeof(tsk));
+    TTsk* TTsklist = (TTsk*)malloc((numberThreads) * sizeof(TTsk));
 
     if (numberThreads > size) {
         numberThreads = size;
@@ -72,7 +67,7 @@ void Sort(int numberThreads, int size, int *arr, FILE *out) {
     int low = 0;
 
     for (int i = 0; i < numberThreads; i++, low += length) {
-        arrThread = &tsklist[i];
+        arrThread = &TTsklist[i];
         arrThread->number = i;
         arrThread->left = low;
         arrThread->right = low + length - 1;
@@ -84,18 +79,18 @@ void Sort(int numberThreads, int size, int *arr, FILE *out) {
     }
 
     for (int i = 0; i < numberThreads; i++) {
-        arrThread = &tsklist[i];
+        arrThread = &TTsklist[i];
         pthread_create(&threads[i], NULL, QuickSortThread, arrThread);
         pthread_join(threads[i], NULL);
     }
     
-    QuickSort(0, size - 1, arr);
+//    QuickSort(0, size - 1, arr);
 
 //    end_time = clock();
 //    timer = end_time - start_time;
 
     free(threads);
-    free(tsklist);
+    free(TTsklist);
 
  //   printf("Sorted array: \n");
 

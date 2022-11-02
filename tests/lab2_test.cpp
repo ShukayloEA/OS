@@ -9,7 +9,7 @@
 namespace fs = std::filesystem;
 
 extern "C" {
-  #include <lab2.h>
+    #include "lab2.h"
 }
 
 int *GenerateArray(int size, int *arr) {

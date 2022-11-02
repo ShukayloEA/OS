@@ -14,19 +14,12 @@ int main(int argc, char* argv[]) {
     
     int numberThreads = atoi(argv[1]);
     int size = atoi(argv[2]);
-
-    //printf("Number elements: \n");
-    //scanf("%d", &size);
-    //numberThreads = 10;
+    
     arr = (int*)malloc(sizeof(int) * size);
-    //printf("Array of integers: \n");
-
+    
     for (int i = 0; i < size; i++) {
         scanf("%d", &arr[i]);
-        //arr[i] = rand() % 1000;
-        //printf("%d ", arr[i]);
     }
-    //printf("\n");
 
     Sort(numberThreads, size, arr, stdout);
 

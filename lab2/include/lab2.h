@@ -8,7 +8,7 @@ typedef struct {
     int left;
     int right;
     int* arr;
-} tsk;
+} TTsk;
 
 void Swap(int* a, int* b);
 int Partition(int low, int high, int *arr);
