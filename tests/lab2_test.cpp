@@ -22,7 +22,7 @@ int *GenerateArray(int size, int *arr) {
     return arr;
 }
 
-int compare(const void* x1, const void* x2)
+int Compare(const void* x1, const void* x2)
 {
     return (*(int*)x1 - *(int*)x2);
 }
@@ -96,7 +96,7 @@ TEST(SecondLabTests, ThreadConfigurations) {
         GenerateArray(size, input);
 
         int *expectedOutput = input;
-        qsort(expectedOutput, size, sizeof(int), compare);
+        qsort(expectedOutput, size, sizeof(int), Compare);
 
         {
             auto inFile = std::ofstream(fileWithInput);
@@ -188,7 +188,7 @@ TEST(SecondLabTest, PerfomanceTest) {
         }
 
         fclose(outfile);
-
+        free(input);
         return avg / runsCount;
     };
 

@@ -3,9 +3,7 @@
 #include "lab2.h" 
 #include <stdio.h>
 #include <stdlib.h>
-#include <pthread.h> 
-//#include <time.h> 
-
+#include <pthread.h>
 
 void Swap(int* a, int* b)
 {
@@ -50,10 +48,6 @@ void* QuickSortThread(void* arg)
 }
 
 void Sort(int numberThreads, int size, int *arr, FILE *out) {
-    //clock_t start_time, end_time;
-    //float timer = 0.0;
-    //start_time = clock();
-
     TTsk* arrThread = NULL;
 
     pthread_t* threads = (pthread_t*)malloc((numberThreads) * sizeof(pthread_t));
@@ -84,21 +78,10 @@ void Sort(int numberThreads, int size, int *arr, FILE *out) {
         pthread_join(threads[i], NULL);
     }
     
-//    QuickSort(0, size - 1, arr);
-
-//    end_time = clock();
-//    timer = end_time - start_time;
-
     free(threads);
     free(TTsklist);
-
- //   printf("Sorted array: \n");
 
     for (int i = 0; i < size; i++) {
         fprintf(out, "%d ", arr[i]);
     }
-
-//    printf("\n");
-
-//    printf("\nTime: %f\n", timer / CLOCKS_PER_SEC);
 }
