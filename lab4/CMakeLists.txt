@@ -1,0 +1,18 @@
+add_library(dyn1 SHARED src/first_realization.c)
+add_library(dyn2 SHARED src/second_realization.c)
+
+target_include_directories(dyn1 PRIVATE include)
+target_include_directories(dyn2 PRIVATE include)
+
+add_executable(p1v1 src/program1.c include/realization.h)
+add_executable(p1v2 src/program1.c include/realization.h)
+target_include_directories(p1v1 PRIVATE include)
+target_include_directories(p1v2 PRIVATE include)
+target_link_libraries(p1v1 PRIVATE dyn1)
+target_link_libraries(p1v2 PRIVATE dyn2)
+target_link_libraries(p1v1 PRIVATE m)
+target_link_libraries(p1v2 PRIVATE m)
+add_executable(p2 src/program2.c)
+target_link_libraries(p2 PRIVATE ${CMAKE_DL_LIBS})
+target_link_libraries(p2 PRIVATE m)
+target_include_directories(p2 PRIVATE include)
