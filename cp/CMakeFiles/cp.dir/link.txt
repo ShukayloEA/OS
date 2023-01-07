@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/cp.dir/main.cpp.o CMakeFiles/cp.dir/src/ListAllocator.cpp.o CMakeFiles/cp.dir/src/N2Allocator.cpp.o -o cp 
